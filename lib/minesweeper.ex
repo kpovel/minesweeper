@@ -3,16 +3,9 @@ defmodule Minesweeper do
   Documentation for `Minesweeper`.
   """
 
-  @doc """
-  Hello world.
+  def start(_type, _args) do
+    _map = MineMap.build(8, 10, 10)
 
-  ## Examples
-
-      iex> Minesweeper.hello()
-      :world
-
-  """
-  def hello do
-    :world
+    Supervisor.start_link([], strategy: :one_for_one)
   end
 end
