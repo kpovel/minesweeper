@@ -8,7 +8,7 @@ defmodule MineMap do
       when is_integer(rows)
       when is_integer(cols)
       when is_integer(mines) do
-    assert rows * cols > mines
+    assert((rows * cols) / 2 > mines, "At least half of the cells should not be mines")
 
     default_map = List.duplicate(:clear, rows * cols)
     map = generate_map(rows, cols, mines, default_map)
@@ -19,14 +19,14 @@ defmodule MineMap do
   def generate_map(rows, cols, remind_mines, map) do
     assert remind_mines > 0
     {row, col} = {Enum.random(0..(rows - 1)), Enum.random(0..(cols - 1))}
-    target_index = row * col + col
+    target_index = cols * row + col
 
     case Enum.at(map, target_index) do
       :mine ->
         generate_map(rows, cols, remind_mines, map)
 
       :clear ->
-        map = List.replace_at(map, row * col + col, :mine)
+        map = List.replace_at(map, target_index, :mine)
 
         case remind_mines do
           1 -> map
