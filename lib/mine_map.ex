@@ -34,4 +34,53 @@ defmodule MineMap do
         end
     end
   end
+
+  def print_map(map, rows, cols) do
+    print_header(cols)
+    print_body(map, rows, cols)
+  end
+
+  defp print_body(map, rows, cols) do
+    row_space = Integer.to_string(cols) |> String.length()
+    row_space = row_space + 2
+
+    Enum.each(0..(rows - 1), fn i ->
+      row_number = "#{[65 + i]} "
+      IO.write(row_number)
+
+      leading_space = div(row_space + 1, 2)
+      trailing_space = leading_space + 1
+
+      Enum.slice(map, i * cols, cols)
+      |> Enum.map(fn cell ->
+        case cell do
+          :mine -> "X"
+          :clear -> " "
+        end
+        |> String.pad_leading(leading_space)
+        |> String.pad_trailing(trailing_space)
+      end)
+      |> Enum.map(fn l -> l <> "|" end)
+      |> IO.puts()
+    end)
+  end
+
+  defp print_header(cols) when is_number(cols) do
+    row_space = Integer.to_string(cols) |> String.length()
+    row_space = row_space + 2
+
+    col_hint =
+      Enum.map(1..cols, fn col ->
+        num_len = Integer.to_string(col) |> String.length()
+        leading_space = div(row_space - num_len + 2, 2)
+        trailing_space = leading_space + 1
+
+        header =
+          String.pad_leading("#{col}", leading_space) |> String.pad_trailing(trailing_space)
+
+        header <> "|"
+      end)
+
+    IO.puts("  #{col_hint}")
+  end
 end
