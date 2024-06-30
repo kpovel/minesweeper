@@ -34,8 +34,13 @@ defmodule MineMap do
         end
     end
   end
+end
+
+defmodule MineMap.Format do
+  alias IEx.Helpers
 
   def print_map(map, rows, cols) do
+    Helpers.clear()
     print_header(cols)
     print_body(map, rows, cols)
   end

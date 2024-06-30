@@ -6,7 +6,7 @@ defmodule Minesweeper do
   def start(_type, _args) do
     {rows, cols} = {8, 10}
     map = MineMap.build(rows, cols, 10)
-    map |> MineMap.print_map(rows, cols)
+    map |> MineMap.Format.print_map(rows, cols)
 
     Supervisor.start_link([], strategy: :one_for_one)
   end
