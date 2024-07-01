@@ -55,6 +55,44 @@ defmodule MineMap do
         end
     end
   end
+
+  def is_mine(map, row, col) do
+    Enum.at(map, row)
+    |> case do
+      nil ->
+        false
+
+      row ->
+        Enum.at(row, col)
+        |> case do
+          :mine -> true
+          :clear -> false
+          nil -> false
+        end
+    end
+  end
+
+  def near_mines(map, row, col) do
+    inspect_cells = [
+      %{row: row - 1, col: col},
+      %{row: row - 1, col: col + 1},
+      %{row: row, col: col + 1},
+      %{row: row + 1, col: col + 1},
+      %{row: row + 1, col: col},
+      %{row: row + 1, col: col - 1},
+      %{row: row, col: col - 1},
+      %{row: row - 1, col: col - 1}
+    ]
+
+    Enum.map(inspect_cells, fn %{row: row, col: col} ->
+      case {row, col} do
+        {row, _} when row < 0 -> false
+        {_, col} when col < 0 -> false
+        {row, col} -> is_mine(map, row, col)
+      end
+    end)
+    |> Enum.count(fn c -> c == true end)
+  end
 end
 
 defmodule MineMap.Format do
