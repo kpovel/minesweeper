@@ -5,10 +5,7 @@ defmodule Minesweeper do
 
   def start(_type, _args) do
     {rows, cols} = {8, 10}
-
     MineMap.build(rows, cols, 10) |> Game.launch()
-
-    # MineMap.Format.print_map()
 
     Supervisor.start_link([], strategy: :one_for_one)
   end

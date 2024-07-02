@@ -12,9 +12,6 @@ defmodule MinesweeperTest do
   use ExUnit.Case
   doctest Minesweeper
 
-  @rows 8
-  @cols 10
-  @mines 39
   @mine_map [
     [:mine, :mine, :clear, :clear, :clear, :clear, :clear, :clear, :clear, :mine],
     [:clear, :mine, :clear, :clear, :clear, :mine, :clear, :mine, :clear, :clear],

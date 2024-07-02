@@ -13,8 +13,16 @@ defmodule Minesweeper.MixProject do
 
   # Run "mix help compile.app" to learn about applications.
   def application do
+    config = [ extra_applications: [:logger] ]
+
+    case Mix.env() == :test do
+      true -> config
+      false -> Keyword.put(config, :mod,  {Minesweeper, []})
+    end
+  end
+
+  def test do
     [
-      mod: {Minesweeper, []},
       extra_applications: [:logger]
     ]
   end

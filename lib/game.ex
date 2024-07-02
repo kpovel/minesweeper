@@ -16,7 +16,44 @@ defmodule Game do
   defp play(map) do
     print_map(map)
     {row, col} = read_move(Enum.count(map), hd(map) |> Enum.count())
-    mark_visited(map, row, col) |> play()
+    map = mark_visited(map, row, col)
+
+    case(
+      MineMap.is_mine(
+        Enum.map(map, fn r ->
+          Enum.map(r, fn %{cell: cell, visited: _} -> cell end)
+        end),
+        row,
+        col
+      )
+    ) do
+      true ->
+        print_map(map)
+        IO.puts("You lost")
+        false
+
+      false ->
+        case is_win(map) do
+          true ->
+            print_map(map)
+            IO.puts("You won")
+
+          false ->
+            play(map)
+        end
+    end
+  end
+
+  def is_win(map) do
+    Enum.all?(map, fn row ->
+      Enum.all?(row, fn %{cell: cell, visited: visited} ->
+        case cell do
+          :mine -> true
+          :clear when visited -> true
+          _ -> false
+        end
+      end)
+    end)
   end
 
   defp read_move(rows, cols) do
