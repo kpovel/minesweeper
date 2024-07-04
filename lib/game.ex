@@ -58,7 +58,7 @@ defmodule Game do
 
   defp read_move(rows, cols) do
     IO.write("Your move: ")
-    [_, row, col, _] = IO.read(:stdio, :line) |> String.trim() |> String.split("")
+    {row, col} = IO.read(:stdio, :line) |> String.trim() |> String.split_at(1)
     row = String.upcase(row) |> :binary.first()
     row = row - 65
     col = String.to_integer(col) - 1
